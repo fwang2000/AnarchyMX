@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class MainMenu : MonoBehaviourPunCallbacks
 {
@@ -102,11 +104,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         cachedRoomList.Clear();
-    }
-
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
+        SceneManager.LoadScene(SceneManagerHelper.ActiveSceneBuildIndex + 1);
     }
     #endregion
 
@@ -174,6 +172,29 @@ public class MainMenu : MonoBehaviourPunCallbacks
         ChangeNamePanel.SetActive(activePanel.Equals(ChangeNamePanel.name));
         CreateRoomPanel.SetActive(activePanel.Equals(CreateRoomPanel.name));
         RoomListPanel.SetActive(activePanel.Equals(RoomListPanel.name));
+    }
+    private void CreateRoom(string roomName)
+    {
+        string[] nicknames = new string[8] { "", "", "", "", "", "", "", "" };
+        int[] models = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions
+        {
+            MaxPlayers = MaxPlayersPerRoom,
+            CustomRoomPropertiesForLobby = new string[1] { "owner" },
+            CustomRoomProperties = new Hashtable
+                {
+                    { "owner", PhotonNetwork.LocalPlayer.NickName },
+                    { "nicknames", nicknames },
+                    { "models", models},
+                    { "moveSpeed", 10f },
+                    { "roundTime", 5f },
+                    { "curseTime", 60.0f},
+                    { "artifactsDR", "LOW"}
+                },
+            PlayerTtl = 0,
+            EmptyRoomTtl = 0,
+        });
     }
 
     private void ClearRoomListView()
