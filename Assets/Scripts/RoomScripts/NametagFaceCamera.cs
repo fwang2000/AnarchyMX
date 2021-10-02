@@ -10,6 +10,7 @@ public class NametagFaceCamera : MonoBehaviour
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
+        SetNametagLookAtCamera();
     }
 
     private void SetNametagLookAtCamera()

@@ -11,8 +11,28 @@ public class PlayerSpawner : MonoBehaviour
 
     private string prefabName = "PlayerPrefab";
 
-    public void InstantiatePlayer(string prefabColor)
+    private static GameObject playerPrefab;
+    private static GameObject playerModel;
+
+    private void Start()
     {
-        PhotonNetwork.Instantiate(prefabColor + prefabName, SpawnpointController.singletonInstance.spawnpoints[PhotonNetwork.LocalPlayer.GetPlayerNumber()].position, Quaternion.identity);
+        StartCoroutine("InstantiatePlayerPrefab");
+    }
+
+    private IEnumerator InstantiatePlayerPrefab()
+    {
+        yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.GetPlayerNumber() != -1);
+
+        Vector3 spawnPosition = SpawnpointController.singletonInstance.spawnpoints[PhotonNetwork.LocalPlayer.GetPlayerNumber()].position + new Vector3(0, 2, 0);
+        playerPrefab = PhotonNetwork.Instantiate(prefabName, spawnPosition, Quaternion.identity);
+    }
+
+    public void InstantiatePlayerModel(string prefabColor)
+    {
+        if (playerModel)
+        {
+            Destroy(playerModel);
+        }
+        playerModel = (GameObject)Instantiate(Resources.Load("CharacterModels/" + prefabColor + "PlayerModel"), playerPrefab.transform.position, Quaternion.identity, playerPrefab.transform);
     }
 }

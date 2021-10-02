@@ -121,6 +121,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
     public void OnCreateRoomButtonClicked()
     {
         string roomName = "Room " + UnityEngine.Random.Range(1000, 9999);
+
+        CreateRoom(roomName);
     }
 
     public void OnLoginButtonClicked()
@@ -176,21 +178,17 @@ public class MainMenu : MonoBehaviourPunCallbacks
     private void CreateRoom(string roomName)
     {
         string[] nicknames = new string[8] { "", "", "", "", "", "", "", "" };
-        int[] models = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         PhotonNetwork.CreateRoom(roomName, new RoomOptions
         {
             MaxPlayers = MaxPlayersPerRoom,
-            CustomRoomPropertiesForLobby = new string[1] { "owner" },
             CustomRoomProperties = new Hashtable
                 {
-                    { "owner", PhotonNetwork.LocalPlayer.NickName },
-                    { "nicknames", nicknames },
-                    { "models", models},
                     { "moveSpeed", 10f },
                     { "roundTime", 5f },
                     { "curseTime", 60.0f},
-                    { "artifactsDR", "LOW"}
+                    { "artifactsDR", "LOW"},
+                    { "nicknames", nicknames }
                 },
             PlayerTtl = 0,
             EmptyRoomTtl = 0,

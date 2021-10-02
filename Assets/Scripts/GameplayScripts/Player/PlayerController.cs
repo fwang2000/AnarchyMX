@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetCamera()
     {
-        mainCamera = GameObject.Find("MainCamera");
+        mainCamera = GameObject.Find("Main Camera");
         mainCamera.GetComponent<CameraFollowPlayer>().SetPlayer(this.gameObject);
     }
 }
