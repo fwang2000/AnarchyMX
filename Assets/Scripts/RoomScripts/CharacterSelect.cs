@@ -22,7 +22,7 @@ public class CharacterSelect : MonoBehaviour
     public void OnPlayerButtonClicked()
     {
         string oldCharacterName = (string)PhotonNetwork.LocalPlayer.CustomProperties[characterProp];
-        if (string.IsNullOrEmpty(oldCharacterName))
+        if (!string.IsNullOrEmpty(oldCharacterName))
         {
             GetComponent<PhotonView>().RPC("ActivateButton", RpcTarget.AllBuffered, oldCharacterName);
         }
