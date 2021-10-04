@@ -10,19 +10,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject StartButton;
-    private const int MaxPlayersPerRoom = 8;
+    private const int MaxPlayersPerRoom = 3;
 
     // Start is called before the first frame update
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         ActivateStartButton();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void ActivateStartButton()

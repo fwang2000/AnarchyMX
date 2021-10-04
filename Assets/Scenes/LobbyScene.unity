@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 671115984}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9998946
+  m_Size: 0.99904346
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7769,7 +7769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.0078125}
   m_SizeDelta: {x: 0, y: -11.562309}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &901872882
@@ -8012,7 +8012,6 @@ GameObject:
   - component: {fileID: 941947267}
   - component: {fileID: 941947270}
   - component: {fileID: 941947268}
-  - component: {fileID: 941947269}
   m_Layer: 5
   m_Name: MenuControl
   m_TagString: Untagged
@@ -8065,19 +8064,6 @@ MonoBehaviour:
   RoomListContent: {fileID: 901872880}
   RoomListEntryPrefab: {fileID: 7319606631531449336, guid: 23f86c29a07fff348aaaad32484bc19a,
     type: 3}
---- !u!114 &941947269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941947266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b28dd60f6abf16d4094cf0f642a043e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
 --- !u!222 &941947270
 CanvasRenderer:
   m_ObjectHideFlags: 0
