@@ -42,4 +42,16 @@ public class PlayerNameInput : MonoBehaviour
         PhotonNetwork.NickName = playerName;
         PlayerPrefs.SetString(PlayerPrefsNameKey, playerName);
     }
+
+    private void LateUpdate()
+    {
+        if (nameInputField.isFocused)
+        {
+            nameInputField.placeholder.GetComponent<Text>().text = "";
+        }
+        else
+        {
+            nameInputField.placeholder.GetComponent<Text>().text = "Player Name";
+        }
+    }
 }

@@ -16,12 +16,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        ActivateStartButton();
-    }
-
-    private void ActivateStartButton()
-    {
-        StartButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
     #region PUN Callbacks
@@ -68,11 +62,4 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    public void OnStartButtonClicked()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("GameScene");
-        }
-    }
 }

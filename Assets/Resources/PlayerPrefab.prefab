@@ -85,7 +85,6 @@ GameObject:
   - component: {fileID: 3357899858653812819}
   - component: {fileID: -1137666960815890255}
   - component: {fileID: -5481290043134047443}
-  - component: {fileID: 1559885546717870636}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -147,18 +146,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &1559885546717870636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2657605635242307874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6685352c3920e4e45b17682e8e67a4d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3935189701995786927
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3202788523747364352
 RectTransform:
   m_ObjectHideFlags: 0
