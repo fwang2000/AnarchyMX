@@ -13,20 +13,19 @@ public class CharacterSelect : MonoBehaviour
     [SerializeField]
     private GameObject CharacterSelectButton;
     private PlayerManager playerSpawner;
-    private string characterProp = "character";
 
     private RoomTimer roomTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerSpawner = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        playerSpawner = GameObject.Find("PlayerSpawner").GetComponent<PlayerManager>();
         roomTimer = GameObject.Find("Timer").GetComponent<RoomTimer>();
     }
 
     public void OnPlayerButtonClicked()
     {
-        string oldCharacterName = (string)PhotonNetwork.LocalPlayer.CustomProperties[characterProp];
+        string oldCharacterName = (string)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_COLOR];
         if (!string.IsNullOrEmpty(oldCharacterName))
         {
             GetComponent<PhotonView>().RPC("ActivateButton", RpcTarget.AllBuffered, oldCharacterName);
@@ -34,6 +33,7 @@ public class CharacterSelect : MonoBehaviour
         else
         {
             CharacterSelectButton.SetActive(true);
+            ReadyPlayer();
             roomTimer.DisableTimer();
         }
 
@@ -80,8 +80,17 @@ public class CharacterSelect : MonoBehaviour
 
     private void SetPlayerModelProp(string characterName)
     {
-        Hashtable playerProps = new Hashtable();
-        playerProps.Add(characterProp, characterName);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+        Hashtable props = new Hashtable();
+        props.Add(AnarchyGame.PLAYER_COLOR, characterName);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+
+    private void ReadyPlayer()
+    {
+        Hashtable props = new Hashtable
+        {
+            { AnarchyGame.PLAYER_READY, true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 }
