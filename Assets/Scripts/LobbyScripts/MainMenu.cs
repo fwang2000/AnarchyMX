@@ -182,8 +182,10 @@ public class MainMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(roomName, new RoomOptions
         {
             MaxPlayers = MaxPlayersPerRoom,
+            CustomRoomPropertiesForLobby = new string[1] { "owner" },
             CustomRoomProperties = new Hashtable
                 {
+                    { "owner", PhotonNetwork.LocalPlayer.NickName },
                     { "moveSpeed", 10f },
                     { "roundTime", 5f },
                     { "curseTime", 60.0f},

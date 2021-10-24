@@ -25,10 +25,7 @@ public class RoomUI : MonoBehaviourPunCallbacks
 
     public void OnStartButtonClicked()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("GameScene");
-        }
+        PhotonNetwork.LoadLevel("GameScene");
     }
 
     public void OnCharacterSelectButtonClicked()

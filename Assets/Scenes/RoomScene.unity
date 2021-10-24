@@ -2700,7 +2700,7 @@ GameObject:
   - component: {fileID: 1692247289}
   - component: {fileID: 1692247290}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: PlayerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

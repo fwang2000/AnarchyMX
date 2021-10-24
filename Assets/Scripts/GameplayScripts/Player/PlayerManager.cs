@@ -12,13 +12,6 @@ public class PlayerManager : MonoBehaviour
     private string prefabName;
 
     private GameObject playerPrefab;
-    private GameObject playerModel;
-    /*
-    private void Start()
-    {
-        StartCoroutine("InstantiatePlayerPrefab");
-    }
-    */
 
     public void InstantiatePlayer(string prefabColor)
     {
