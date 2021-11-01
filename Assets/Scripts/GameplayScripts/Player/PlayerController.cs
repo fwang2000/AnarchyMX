@@ -5,16 +5,19 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
-    Rigidbody rb;
-    float moveSpeed;
-    float smoothTime;
-    Vector3 forward, right, upMovement, rightMovement;
+    #region CHARACTER MOVEMENT
+    private Rigidbody rb;
+    private float moveSpeed;
+    private float smoothTime;
+    private Vector3 forward, right, upMovement, rightMovement;
 
-    bool grounded;
-    Vector3 smoothMoveVelocity;
-    Vector3 moveAmount;
+    private bool grounded;
+    private Vector3 smoothMoveVelocity;
+    private Vector3 moveAmount;
+    #endregion
 
-    PhotonView PV;
+    private PhotonView PV;
+    public static GameObject LocalPlayerGameObject;
 
     private void Awake()
     {
@@ -29,6 +32,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         forward = Vector3.Normalize(forward);
 
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+
+        if (PV.IsMine)
+        {
+            PlayerController.LocalPlayerGameObject = this.gameObject;
+        }
     }
 
     // Update is called once per frames
