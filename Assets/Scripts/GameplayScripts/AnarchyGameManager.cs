@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
@@ -12,9 +12,10 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
 {
     public static AnarchyGameManager singletonInstance;
 
-    public Text timerText;
+    public TextMeshProUGUI timerText;
 
     [SerializeField] private GameObject playerSpawner;
+    [SerializeField] private StartTimer startTimer;
 
     void Awake()
     {
@@ -24,7 +25,6 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
     public override void OnEnable()
     {
         base.OnEnable();
-        CountdownTimer.OnCountdownTimerHasExpired += OnCountdownTimerHasExpired;
     }
 
     private void Start()
@@ -46,12 +46,6 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
     public override void OnDisable()
     {
         base.OnDisable();
-        CountdownTimer.OnCountdownTimerHasExpired -= OnCountdownTimerHasExpired;
-    }
-
-    private void OnCountdownTimerHasExpired()
-    {
-        return;
     }
 
     #region PUN CALLBACKS
@@ -73,7 +67,7 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
         }
 
         int startTimestamp;
-        bool startTimeIsSet = CountdownTimer.TryGetStartTime(out startTimestamp);
+        bool startTimeIsSet = startTimer.TryGetStartTime(out startTimestamp);
 
         if (changedProps.ContainsKey(AnarchyGame.PLAYER_LOADED_LEVEL))
         {
@@ -81,7 +75,7 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
             {
                 if (!startTimeIsSet)
                 {
-                    CountdownTimer.SetStartTime();
+                    startTimer.SetStartTime();
                 }
                 else
                 {

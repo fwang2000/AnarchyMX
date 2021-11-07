@@ -32,7 +32,7 @@ public class ArtifactControlScript : MonoBehaviour
     {
         ArtifactCanvas.SetActive(false);
         Beacon.GetComponent<Renderer>().material.color = openBeaconColor;
-        Debug.Log(Beacon.GetComponent<Renderer>().material.color);
+        // Debug.Log(Beacon.GetComponent<Renderer>().material.color);
     }
 
     private void Update()

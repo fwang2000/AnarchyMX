@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -12,6 +14,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 forward, right, upMovement, rightMovement;
 
     private bool grounded;
+    private bool movementEnabled;
     private Vector3 smoothMoveVelocity;
     private Vector3 moveAmount;
     #endregion
@@ -47,6 +50,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
+        if (!movementEnabled)
+        {
+            return;
+        }
+
         Move();
     }
 
@@ -70,6 +78,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
+        if (!movementEnabled)
+        {
+            return;
+        }
+
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -89,6 +102,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             rb.position += rb.velocity * lag;
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (targetPlayer.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            return;
+        }
+
+        if (changedProps.ContainsKey(AnarchyGame.MOVEMENT_ENABLED))
+        {
+            movementEnabled = (bool)changedProps[AnarchyGame.MOVEMENT_ENABLED];
         }
     }
 }
