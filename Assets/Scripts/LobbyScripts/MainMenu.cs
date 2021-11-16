@@ -190,7 +190,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
                     { "roundTime", 5f },
                     { "curseTime", 60.0f},
                     { "artifactsDR", "LOW"},
-                    { "nicknames", nicknames }
+                    { "nicknames", nicknames },
+                    { AnarchyGame.MOVEMENT_ENABLED, true }
                 },
             PlayerTtl = 0,
             EmptyRoomTtl = 0,

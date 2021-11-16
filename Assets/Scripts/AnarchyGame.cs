@@ -10,6 +10,7 @@ public class AnarchyGame : MonoBehaviour
     public const string PLAYER_READY = "IsPlayerReady";
     public const string PLAYER_LOADED_LEVEL = "IsPlayerLoadedLevel";
     public const string PLAYER_COLOR = "Player Color";
+    public const string PLAYER_CURSED = "Player Cursed";
 
     public const string START_TIMER_PROP = "StartTime";
     public const string ROUND_TIMER_PROP = "RoundTime";

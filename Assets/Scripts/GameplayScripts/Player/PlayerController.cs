@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 smoothMoveVelocity;
     private Vector3 moveAmount;
     #endregion
+    #region CURSE
+    private CurseManager curseManager;
+    #endregion
 
+    private int playerID;
     private PhotonView PV;
     public static GameObject LocalPlayerGameObject;
 
@@ -27,19 +31,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
 
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
+        // curseManager = GameObject.Find("CurseManager").GetComponent<CurseManager>();
+        PlayerController.LocalPlayerGameObject = this.gameObject;
+    }
+
+    private void Start()
+    {
+        playerID = PhotonNetwork.LocalPlayer.ActorNumber;
+
         smoothTime = 0.1f;
         moveSpeed = 20f;
+        movementEnabled = (bool)PhotonNetwork.CurrentRoom.CustomProperties[AnarchyGame.MOVEMENT_ENABLED];
 
         forward = Camera.main.transform.forward;
         forward.y = 0;
         forward = Vector3.Normalize(forward);
 
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
-
-        if (PV.IsMine)
-        {
-            PlayerController.LocalPlayerGameObject = this.gameObject;
-        }
     }
 
     // Update is called once per frames
@@ -105,6 +118,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Player")
+        {
+            GameObject collidedPlayer = hit.gameObject;
+            int otherPlayerId = collidedPlayer.GetComponent<PlayerController>().GetPlayerID();
+
+            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_CURSED])
+            {
+                Hashtable oldCurseProps = new Hashtable
+                {
+                    { AnarchyGame.PLAYER_CURSED, false }
+                };
+
+                PhotonNetwork.LocalPlayer.SetCustomProperties(oldCurseProps);
+
+                // curseManager.CursePlayer(otherPlayerId);
+            }
+        }
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if (targetPlayer.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
@@ -117,4 +151,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             movementEnabled = (bool)changedProps[AnarchyGame.MOVEMENT_ENABLED];
         }
     }
+
+    #region GET/SET
+    public int GetPlayerID()
+    {
+        return playerID;
+    }
+    #endregion
 }

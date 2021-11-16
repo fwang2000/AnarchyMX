@@ -14,7 +14,7 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI timerText;
 
-    [SerializeField] private GameObject playerSpawner;
+    [SerializeField] private PlayerSpawner playerSpawner;
     [SerializeField] private StartTimer startTimer;
 
     void Awake()
@@ -40,7 +40,7 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
 
     private void SpawnPlayer()
     {
-        playerSpawner.GetComponent<PlayerManager>().InstantiatePlayer((string)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_COLOR]);
+        playerSpawner.InstantiatePlayer((string)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_COLOR]);
     }
 
     public override void OnDisable()
@@ -61,16 +61,16 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            return;
-        }
-
-        int startTimestamp;
-        bool startTimeIsSet = startTimer.TryGetStartTime(out startTimestamp);
-
         if (changedProps.ContainsKey(AnarchyGame.PLAYER_LOADED_LEVEL))
         {
+            int startTimestamp;
+            bool startTimeIsSet = startTimer.TryGetStartTime(out startTimestamp);
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                return;
+            }
+
             if (AllPlayersLoaded())
             {
                 if (!startTimeIsSet)
@@ -82,6 +82,23 @@ public class AnarchyGameManager : MonoBehaviourPunCallbacks
                     timerText.text = "Waiting for other players...";
                 }
             }
+        }
+        else if (changedProps.ContainsKey(AnarchyGame.PLAYER_CURSED))
+        {
+            if (targetPlayer.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                return;
+            }
+
+            if ((bool)changedProps[AnarchyGame.PLAYER_CURSED])
+            {
+                playerSpawner.InstantiateCursedPlayer((string)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_COLOR]);
+            }
+            else
+            {
+                playerSpawner.InstantiatePlayer((string)PhotonNetwork.LocalPlayer.CustomProperties[AnarchyGame.PLAYER_COLOR]);
+            }
+            
         }
     }
 

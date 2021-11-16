@@ -1367,7 +1367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1223726851}
-  playerSpawner: {fileID: 1626062115}
+  playerSpawner: {fileID: 1626062116}
   startTimer: {fileID: 1223726853}
 --- !u!1 &1221218490
 GameObject:

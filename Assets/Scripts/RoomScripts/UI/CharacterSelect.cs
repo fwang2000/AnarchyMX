@@ -17,7 +17,7 @@ public class CharacterSelect : MonoBehaviour
 
     [SerializeField]
     private GameObject CharacterSelectPanel;
-    private PlayerManager playerSpawner;
+    private PlayerSpawner playerSpawner;
     private RoomTimer roomTimer;
     private GameObject UIPanel;
     private string currentColor;
@@ -25,7 +25,7 @@ public class CharacterSelect : MonoBehaviour
 
     private void Awake()
     {
-        playerSpawner = GameObject.Find("PlayerSpawner").GetComponent<PlayerManager>();
+        playerSpawner = GameObject.Find("PlayerSpawner").GetComponent<PlayerSpawner>();
         roomTimer = GameObject.Find("Timer").GetComponent<RoomTimer>();
         selectButton = GameObject.Find("SelectCharacterButton").GetComponent<Button>();
         characterTemplate = GameObject.Find("CharacterTemplate");
