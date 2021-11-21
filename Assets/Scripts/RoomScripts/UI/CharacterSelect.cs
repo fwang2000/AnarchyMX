@@ -17,9 +17,11 @@ public class CharacterSelect : MonoBehaviour
 
     [SerializeField]
     private GameObject CharacterSelectPanel;
+
     private PlayerSpawner playerSpawner;
     private RoomTimer roomTimer;
     private GameObject UIPanel;
+    private GameObject LeaveRoomButton;
     private string currentColor;
     private bool characterPreviewSelected;
 
@@ -79,6 +81,7 @@ public class CharacterSelect : MonoBehaviour
         characterTemplate.SetActive(false);
         UIPanel.SetActive(false);
         transform.gameObject.SetActive(false);
+        Camera.main.orthographicSize = 17f;
     }
 
     [PunRPC]

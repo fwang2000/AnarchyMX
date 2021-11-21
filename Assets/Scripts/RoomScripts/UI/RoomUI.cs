@@ -28,6 +28,11 @@ public class RoomUI : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("GameScene");
     }
 
+    public void OnLeaveRoomButtonClicked()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
     public void OnCharacterSelectButtonClicked()
     {
         CharacterSelect.SetActive(characterSelectActive = !characterSelectActive);

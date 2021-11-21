@@ -23,6 +23,9 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     [Header("Create Room Panel")]
     public GameObject CreateRoomPanel;
+    public InputField CreateRoomNameInput;
+    public InputField CreateRoomPasswordInput;
+    public Toggle CreateRoomPasswordEnabled;
 
     [Header("Room List Panel")]
     public GameObject RoomListPanel;
@@ -118,11 +121,32 @@ public class MainMenu : MonoBehaviourPunCallbacks
         SetActivePanel(SelectionPanel.name);
     }
 
+    public void OnCreateRoomSettingsButtonClicked()
+    {
+        SetActivePanel(CreateRoomPanel.name);
+    }
+
     public void OnCreateRoomButtonClicked()
     {
-        string roomName = "Room " + UnityEngine.Random.Range(1000, 9999);
+        string roomName = CreateRoomNameInput.text;
+        string roomPassword = "";
 
-        CreateRoom(roomName);
+        if (CreateRoomPasswordEnabled.isOn)
+        {
+            roomPassword = CreateRoomPasswordInput.text;
+            if (string.IsNullOrWhiteSpace(roomPassword))
+            {
+                CreateRoomPasswordInput.placeholder.GetComponent<Text>().text = "Input Password";
+                return;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(roomName))
+        {
+            roomName = PhotonNetwork.LocalPlayer.NickName + "'s room";
+        }
+
+        CreateRoom(roomName, roomPassword, CreateRoomPasswordEnabled.isOn);
     }
 
     public void OnLoginButtonClicked()
@@ -175,17 +199,20 @@ public class MainMenu : MonoBehaviourPunCallbacks
         CreateRoomPanel.SetActive(activePanel.Equals(CreateRoomPanel.name));
         RoomListPanel.SetActive(activePanel.Equals(RoomListPanel.name));
     }
-    private void CreateRoom(string roomName)
+    private void CreateRoom(string roomName, string roomPassword, bool passwordEnabled)
     {
         string[] nicknames = new string[8] { "", "", "", "", "", "", "", "" };
+        string roomID = "Room " + Random.Range(1000, 9999);
 
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions
+        PhotonNetwork.CreateRoom(roomID, new RoomOptions
         {
             MaxPlayers = MaxPlayersPerRoom,
-            CustomRoomPropertiesForLobby = new string[1] { "owner" },
+            CustomRoomPropertiesForLobby = new string[3] { "roomName", "roomPassword", "passwordEnabled" },
             CustomRoomProperties = new Hashtable
                 {
-                    { "owner", PhotonNetwork.LocalPlayer.NickName },
+                    { "roomName", roomName.ToUpper().Trim() },
+                    { "roomPassword", roomPassword.ToUpper().Trim() },
+                    { "passwordEnabled", passwordEnabled },
                     { "moveSpeed", 10f },
                     { "roundTime", 5f },
                     { "curseTime", 60.0f},
@@ -243,7 +270,17 @@ public class MainMenu : MonoBehaviourPunCallbacks
             GameObject entry = Instantiate(RoomListEntryPrefab);
             entry.transform.SetParent(RoomListContent.transform);
             entry.transform.localScale = Vector3.one;
-            entry.GetComponent<RoomListEntry>().Initialize((string)info.CustomProperties["owner"], info.Name, (byte)info.PlayerCount, info.MaxPlayers);
+            Debug.Log((string)info.CustomProperties["roomName"]);
+            Debug.Log((string)info.CustomProperties["roomPassword"]);
+            Debug.Log((bool)info.CustomProperties["passwordEnabled"]);
+
+            entry.GetComponent<RoomListEntry>().Initialize(
+                (string)info.CustomProperties["roomName"],
+                (string)info.CustomProperties["roomPassword"],
+                (bool)info.CustomProperties["passwordEnabled"],
+                info.Name, 
+                (byte)info.PlayerCount, 
+                info.MaxPlayers);
 
             roomListEntries.Add(info.Name, entry);
         }
