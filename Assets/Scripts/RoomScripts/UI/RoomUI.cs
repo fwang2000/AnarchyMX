@@ -12,14 +12,17 @@ public class RoomUI : MonoBehaviourPunCallbacks
 
     private bool characterSelectActive = false;
 
+    public bool characterSelected = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        ActivateStartButton();
+        StartCoroutine("ActivateStartButton");
     }
 
-    private void ActivateStartButton()
+    IEnumerator ActivateStartButton()
     {
+        yield return new WaitUntil(() => characterSelected);
         StartButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 

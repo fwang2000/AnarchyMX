@@ -23,8 +23,9 @@ public class RoomListEntry : MonoBehaviour
         {
             if (passwordEnabled)
             {
-                Instantiate(PasswordPanelPrefab, transform.parent);
-                PasswordPanelPrefab.GetComponent<PasswordPanel>().SetPasswordPanel(roomPassword, roomName);
+                GameObject panel = Instantiate(PasswordPanelPrefab, transform.parent);
+                Debug.Log(roomPassword);
+                panel.GetComponent<PasswordPanel>().SetPasswordPanel(roomPassword, roomName);
                 JoinRoomButton.interactable = false;
             }
             else

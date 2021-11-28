@@ -13,7 +13,7 @@ public class PasswordPanel : MonoBehaviour
 
     public void SetPasswordPanel(string password, string roomName)
     {
-        this.roomPassword = password;
+        roomPassword = password;
         this.roomName = roomName;
     }
 

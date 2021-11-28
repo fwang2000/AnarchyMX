@@ -3342,6 +3342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterSelectPanel: {fileID: 1152922795}
+  roomUI: {fileID: 1780845473}
 --- !u!1 &472800628
 GameObject:
   m_ObjectHideFlags: 0
@@ -13522,6 +13523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartButton: {fileID: 972614747}
   CharacterSelect: {fileID: 1152922795}
+  characterSelected: 0
 --- !u!1 &1784481498
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,8 @@ public class CharacterSelect : MonoBehaviour
 
     [SerializeField]
     private GameObject CharacterSelectPanel;
+    [SerializeField]
+    private RoomUI roomUI;
 
     private PlayerSpawner playerSpawner;
     private RoomTimer roomTimer;
@@ -81,6 +83,7 @@ public class CharacterSelect : MonoBehaviour
         characterTemplate.SetActive(false);
         UIPanel.SetActive(false);
         transform.gameObject.SetActive(false);
+        roomUI.characterSelected = true;
         Camera.main.orthographicSize = 17f;
     }
 
